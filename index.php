@@ -191,6 +191,7 @@
             console.log({data, constants})
             var time = constants.time[from.country + to.country];
             var R = constants.R[from.country + to.country];
+            if(R.unit == 'kg'){weight *= 45}
             var stdD = new Date();
             var expD = new Date();
             var seaD = new Date();
