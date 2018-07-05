@@ -243,10 +243,12 @@
             $('input[name="RStandard"]').val(constants.R[from + to].standard ? constants.R[from + to].standard : 1);
             $('input[name="RExpress"]').val(constants.R[from + to].express ? constants.R[from + to].express : 1);
             $('input[name="RSea"]').val(constants.R[from + to].sea ? constants.R[from + to].sea : 1);
+            $('select[name="unit"]').val(constants.R[from + to].unit);
         } else {
             $('input[name="RStandard"]').val(1);
             $('input[name="RExpress"]').val(1);
             $('input[name="RSea"]').val(1);
+            $('select[name="unit"]').val('lbs');
         }
         if(constants.time[from + to]){
             $('input[name="TStandard"]').val(constants.time[from + to].standard ? constants.time[from + to].standard : '4-8');

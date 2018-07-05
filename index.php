@@ -190,6 +190,7 @@
         }).done(function(data){
             var data = JSON.parse(data);
             var time = constants.time[from.country + to.country];
+            var R = constants.R[from.country + to.country];
             var stdD = new Date();
             var expD = new Date();
             var seaD = new Date();
@@ -202,7 +203,7 @@
                     <center><h3 class="card-title">${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${rounD(currency == 'USD' ? data.standard : (currency == 'NGN' ? data.standard * 360 : (currency == 'GBP' ? data.standard * .76 : '')))}</h3>
                     <h6>${time.standard} Busy Days</h6></center>
                     <p class="card-text">Estimated Delivery: ${dateToString(stdD)}</p>
-                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? rounD(data.standard/weight) : (currency == 'NGN' ? rounD(data.standard/weight * 360) : (currency == 'GBP' ? rounD(data.standard/weight * .76) : 0))}/pound</p></div>
+                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? R.standard : (currency == 'NGN' ? rounD(R.standard * 360) : (currency == 'GBP' ? rounD(R.standard * .76) : 0))}/${R.unit == 'lbs' ? 'pound' : 'kilogram'}</p></div>
                 <a href="#" class="btn btn-primary">Lower shipping cost</a>
             `;
             var hazadous = `
@@ -211,7 +212,7 @@
                     <center><h3 class="card-title">${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${rounD(currency == 'USD' ? data.hazadous : (currency == 'NGN' ? data.hazadous * 360 : (currency == 'GBP' ? data.hazadous * .76 : '')))}</h3>
                     <h6>${time.standard} Busy Days</h6></center>
                     <p class="card-text">Estimated Delivery: ${dateToString(stdD)}</p>
-                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? rounD(data.hazadous/weight) : (currency == 'NGN' ? rounD(data.hazadous/weight * 360) : (currency == 'GBP' ? rounD(data.hazadous/weight * .76) : 0))}/pound</p></div>
+                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? rounD(R.standard + constants.hazadous / weight) : (currency == 'NGN' ? rounD((R.standard + constants.hazadous / weight) * 360) : (currency == 'GBP' ? rounD((R.standard + constants.hazadous / weight) * .76) : 0))}/${R.unit == 'lbs' ? 'pound' : 'kilogram'}</p></div>
                 <a href="#" class="btn btn-primary">Lower shipping cost</a>
             `;
             var express = `
@@ -220,7 +221,7 @@
                     <center><h3 class="card-title">${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${rounD(currency == 'USD' ? data.express : (currency == 'NGN' ? data.express * 360 : (currency == 'GBP' ? data.express * .76 : '')))}</h3>
                     <h6>${time.express} Busy Days</h6></center>
                     <p class="card-text">Estimated Delivery: ${dateToString(expD)}</p>
-                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? rounD(data.express/weight) : (currency == 'NGN' ? rounD(data.express/weight * 360) : (currency == 'GBP' ? rounD(data.express/weight * .76) : 0))}/pound</p></div>
+                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? R.express : (currency == 'NGN' ? rounD(R.express * 360) : (currency == 'GBP' ? rounD(R.express * .76) : 0))}/${R.unit == 'lbs' ? 'pound' : 'kilogram'}</p></div>
                 <a href="#" class="btn btn-primary">Lower shipping cost</a>
             `;
             var sea = `
@@ -229,7 +230,7 @@
                     <center><h3 class="card-title">${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${rounD(currency == 'USD' ? data.sea : (currency == 'NGN' ? data.sea * 360 : (currency == 'GBP' ? data.sea * .76 : '')))}</h3>
                     <h6>${time.sea} Weeks</h6></center>
                     <p class="card-text">Estimated Delivery: ${dateToString(seaD)}</p>
-                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? rounD(data.sea/weight) : (currency == 'NGN' ? rounD(data.sea/weight * 360) : (currency == 'GBP' ? rounD(data.sea/weight * .76) : 0))}/pound</p></div>
+                    <p class="card-text">Your delivery cost is ${currency == 'USD' ? '$' : (currency == 'NGN' ? '₦' : (currency == 'GBP' ? '£' : ''))}${currency == 'USD' ? R.sea : (currency == 'NGN' ? rounD(R.sea * 360) : (currency == 'GBP' ? rounD(R.sea * .76) : 0))}/${R.unit == 'lbs' ? 'pound' : 'kilogram'}</p></div>
                 <a href="#" class="btn btn-primary">Lower shipping cost</a>
             `;
             $('#standard').html(standard);

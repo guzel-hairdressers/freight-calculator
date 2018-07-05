@@ -9,11 +9,7 @@
     $constants->R->{$R['from'].''.$R['to']}->standard = $R['standard'];
     $constants->R->{$R['from'].''.$R['to']}->express = $R['express'];
     $constants->R->{$R['from'].''.$R['to']}->sea = $R['sea'];
-    if($R['unit'] == 'kg'){
-        $constants->R->{$R['from'].''.$R['to']}->standard *= .45;
-        $constants->R->{$R['from'].''.$R['to']}->express *= .45;
-        $constants->R->{$R['from'].''.$R['to']}->sea *= .45;
-    }
+    $constants->R->{$R['from'].''.$R['to']}->unit = $R['unit'];
     if(!property_exists($constants->time, $R['from'].''.$R['to'])){$constants->time->{$R['from'].''.$R['to']} = (object) array();}
     $constants->time->{$R['from'].''.$R['to']}->standard = $time['standard'];
     $constants->time->{$R['from'].''.$R['to']}->express = $time['express'];

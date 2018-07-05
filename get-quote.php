@@ -5,6 +5,11 @@
     $to = $_POST['to'];
     $R = $constants->R->{$from['country'].''.$to['country']};
     $time = $constants->time->{$from['country'].''.$to['country']};
+    if($R->unit == 'kg'){
+        $R->standard *= .45;
+        $R->express *= .45;
+        $R->sea *= .45;
+    }
 
     $addidtional_charges = 0;
     $location_charges = $constants->location_charges;
