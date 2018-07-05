@@ -105,15 +105,19 @@
                 </div>
                 <div class="style">
                     <span>Bacground color</span>
-                    <input type="color" class="right" name="background-color" value="<?= json_decode(file_get_contents('constants.json'))->background_color ?>">
+                    <input type="color" class="right" name="background-color" value="<?= json_decode(file_get_contents('constants.json'))->color->background ?>">
+                </div>
+                <div class="style">
+                    <span>Cool color</span>
+                    <input type="color" class="right" name="cool-color" value="<?= json_decode(file_get_contents('constants.json'))->color->cool ?>">
                 </div>
                 <div class="style">
                     <span>Inputs color</span>
-                    <input type="color" class="right" name="inputs-color" value="<?= json_decode(file_get_contents('constants.json'))->inputs_color ?>">
+                    <input type="color" class="right" name="inputs-color" value="<?= json_decode(file_get_contents('constants.json'))->color->inputs ?>">
                 </div>
                 <div class="style">
                     <span>Text color</span>
-                    <input type="color" class="right" name="text-color" value="<?= json_decode(file_get_contents('constants.json'))->text_color ?>">
+                    <input type="color" class="right" name="text-color" value="<?= json_decode(file_get_contents('constants.json'))->color->text ?>">
                 </div>
             </div>
         </div>
@@ -165,6 +169,7 @@
         }
         var color = {
             background: $('input[name="background-color"]').val(),
+            cool: $('input[name="cool-color"]').val(),
             inputs: $('input[name="inputs-color"]').val(),
             text: $('input[name="text-color"]').val()
         }
@@ -301,9 +306,11 @@
         $('select[name="country"]').html(used_countries);
         $('#from select[name="country"]').val('us');
         $('#from select[name="country"]').trigger('change');
-        $('body').css('background', constants.background_color);
-        $('input, select, button').css('background', constants.inputs_color);
-        $('*').css('color', constants.text_color);
+        $('body').css('background', constants.color.background);
+        $('input, select, button').css('background', constants.color.inputs);
+        $('*').css('color', constants.color.text);
+        $('.card .card-header,a').css('background', constants.color.cool);
+        $('#shipping-quote').css('background', constants.color.cool);
     })
 </script>
 </body>

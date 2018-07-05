@@ -18,9 +18,10 @@
     $constants->time->{$R['from'].''.$R['to']}->standard = $time['standard'];
     $constants->time->{$R['from'].''.$R['to']}->express = $time['express'];
     $constants->time->{$R['from'].''.$R['to']}->sea = $time['sea'];
-    $constants->background_color = $_POST['color']['background'];
-    $constants->inputs_color = $_POST['color']['inputs'];
-    $constants->text_color = $_POST['color']['text'];
+    $constants->color->background = $_POST['color']['background'];
+    $constants->color->inputs = $_POST['color']['inputs'];
+    $constants->color->text = $_POST['color']['text'];
+    $constants->color->cool = $_POST['color']['cool'];
 
     // $constants->location_charges->{$from['region']} = (object) array();
     $constants->location_charges->{$to['region']} = (object) array();

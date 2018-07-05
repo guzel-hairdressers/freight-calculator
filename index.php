@@ -111,7 +111,7 @@
         <center><button class="get-quote" onclick="getQuote()">
             Get a Quote
         </button></center>
-        <div class="container" style="margin-top:50px">
+        <div class="container" style="margin-top:30px">
             <div class="card-deck">
                 <div class="card hidden" id="standard" style="margin: 20px 10px; padding:0"></div>
                 <div class="card hidden" id="hazadous" style="margin: 20px 10px; padding:0"></div>
@@ -306,9 +306,11 @@
         $('select[name="country"]').html(used_countries);
         $('#from select[name="country"]').val('us');
         $('#from select[name="country"]').trigger('change');
-        $('body').css('background', constants.background_color);
-        $('#info input, select').css('background', constants.inputs_color);
-        $('#info *').css('color', constants.text_color);
+        $('body').css('background', constants.color.background);
+        $('#info input, select').css('background', constants.color.inputs);
+        $('#info *').css('color', constants.color.text);
+        $('.card .card-header,a').css('background', constants.color.cool);
+        $('#shipping-quote').css('background', constants.color.cool);
     })
 </script>
 </html>
