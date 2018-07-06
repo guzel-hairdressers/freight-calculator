@@ -188,9 +188,9 @@
     function setStatesOrCities(jq_str, states_or_cities){
         replacement = (states_or_cities.map(function(state_or_city, i){
             if(i == 0){
-                return '<option value="' + state_or_city + '" selected>' + state_or_city.replace(/(state|city)/i, '') + '<\/option>';
+                return '<option value="' + state_or_city + '" selected>' + state_or_city.replace(/(state)/i, '') + '<\/option>';
             }
-            return '<option value="' + state_or_city + '">' + state_or_city.replace(/(state|city)/i, '') + '<\/option>';
+            return '<option value="' + state_or_city + '">' + state_or_city.replace(/(state)/i, '') + '<\/option>';
         }).join('\n'));
         $(jq_str).html(replacement);
         $(jq_str).trigger('change');
