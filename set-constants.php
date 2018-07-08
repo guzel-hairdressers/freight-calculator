@@ -5,6 +5,7 @@
     $time = $_POST['time'];
     $from = $_POST['from'];
     $to = $_POST['to'];
+    $exchange = $_POST['exchange'];
     if(!property_exists($constants->R, $R['from'].''.$R['to'])){$constants->R->{$R['from'].''.$R['to']} = (object) array();}
     $constants->R->{$R['from'].''.$R['to']}->standard = $R['standard'];
     $constants->R->{$R['from'].''.$R['to']}->express = $R['express'];
@@ -18,6 +19,8 @@
     $constants->color->inputs = $_POST['color']['inputs'];
     $constants->color->text = $_POST['color']['text'];
     $constants->color->cool = $_POST['color']['cool'];
+    $constants->exchange->ngn = $exchange['ngn'];
+    $constants->exchange->gbp = $exchange['gbp'];
 
     // $constants->location_charges->{$from['region']} = (object) array();
     $constants->location_charges->{$to['region']} = (object) array();
