@@ -16,7 +16,7 @@
         <center><h3>Pricing</h3></center>
         <div class="container">
             <div id="shipping-quote">
-                <h5>Get shipping quote</h5>
+                <h5>Get quote</h5>
                 <div class="right">
                     <span>Currency</span>
                     <select name="currency">
