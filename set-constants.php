@@ -21,6 +21,8 @@
     $constants->color->cool = $_POST['color']['cool'];
     $constants->exchange->ngn = $exchange['ngn'];
     $constants->exchange->gbp = $exchange['gbp'];
+    $constants->exchange->eur = $exchange['eur'];
+    $constants->exchange->cad = $exchange['cad'];
 
     // $constants->location_charges->{$from['region']} = (object) array();
     $constants->location_charges->{$to['region']} = (object) array();

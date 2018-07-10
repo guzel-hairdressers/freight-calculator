@@ -23,6 +23,8 @@
                         <option value="USD" selected>USD - US dollar</option>
                         <option value="NGN">NGN - Naira</option>
                         <option value="GBP">GBP - British pound</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="CAD">CAD - Canadian dollar</option>
                     </select>
                 </div>
             </div>
@@ -128,6 +130,7 @@
 <script>
     var countries = <?= file_get_contents('needed_countries.json') ?>;
     var constants = <?= file_get_contents('constants.json') ?>;
+    var lower = './lower_shipping';
     function toast(text, type = 'alert', delay = 1000){
         $('#toast').text(text);
         $('#toast').attr({
@@ -190,21 +193,33 @@
             var data = JSON.parse(data);
             var time = constants.time[from.country + to.country];
             var R = constants.R[from.country + to.country];
+            if(R.unit == 'kg'){weight *= .45;}
+            R.hazadous = rounD(parseFloat(R.standard) + constants.hazadous/weight);
             var exchange = {
                 ngn: constants.exchange.ngn,
-                gbp: constants.exchange.gbp
+                gbp: constants.exchange.gbp,
+                eur: constants.exchange.eur,
+                cad: constants.exchange.cad
             };
-            if(R.unit == 'kg'){weight *= .45;}
             var stdD = new Date();
             var expD = new Date();
             var seaD = new Date();
             stdD.setDate(stdD.getDate() + parseInt(time.standard.split('-')[1]));
             expD.setDate(expD.getDate() + parseInt(time.express.split('-')[1]));
             seaD.setDate(seaD.getDate() + parseInt(time.sea.split('-')[1]) * 7);
-            var standard = '<div class="card-header"><center>Standard Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + rounD(currency == 'USD' ? data.standard : currency == 'NGN' ? data.standard * exchange.ngn : currency == 'GBP' ? data.standard * exchange.gbp : '') + '</h3>    <h6>' + time.standard + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(stdD) + '</p>    <p class="card-text">Your delivery cost is ' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + (currency == 'USD' ? R.standard : currency == 'NGN' ? rounD(R.standard * exchange.ngn) : currency == 'GBP' ? rounD(R.standard * exchange.gbp) : 0) + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="#" class="btn btn-primary">Lower shipping cost</a>';
-            var hazadous = '<div class="card-header"><center>Hazmat Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + rounD(currency == 'USD' ? data.hazadous : currency == 'NGN' ? data.hazadous * exchange.ngn : currency == 'GBP' ? data.hazadous * exchange.gbp : '') + '</h3>    <h6>' + time.standard + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(stdD) + '</p>    <p class="card-text">Your delivery cost is ' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + (currency == 'USD' ? rounD(data.hazadous / weight / 1.05) : currency == 'NGN' ? rounD(data.hazadous / weight / 1.05 * exchange.ngn) : currency == 'GBP' ? rounD(data.hazadous / weight / 1.05 * exchange.gbp) : 0) + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="#" class="btn btn-primary">Lower shipping cost</a>';
-            var express = '<div class="card-header"><center>Express Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + rounD(currency == 'USD' ? data.express : currency == 'NGN' ? data.express * exchange.ngn : currency == 'GBP' ? data.express * exchange.gbp : '') + '</h3>    <h6>' + time.express + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(expD) + '</p>    <p class="card-text">Your delivery cost is ' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + (currency == 'USD' ? R.express : currency == 'NGN' ? rounD(R.express * exchange.ngn) : currency == 'GBP' ? rounD(R.express * exchange.gbp) : 0) + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="#" class="btn btn-primary">Lower shipping cost</a>';
-            var sea = '<div class="card-header"><center>Sea Shipping</center></div><div class="card-body"><center><h3 class="card-title">' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + rounD(currency == 'USD' ? data.sea : currency == 'NGN' ? data.sea * exchange.ngn : currency == 'GBP' ? data.sea * exchange.gbp : '') + '</h3><h6>' + time.sea + ' Weeks</h6></center><p class="card-text">Estimated Delivery: ' + dateToString(seaD) + '</p><p class="card-text">Your delivery cost is ' + (currency == 'USD' ? '$' : currency == 'NGN' ? '₦' : currency == 'GBP' ? '£' : '') + (currency == 'USD' ? R.sea : currency == 'NGN' ? rounD(R.sea * exchange.ngn) : currency == 'GBP' ? rounD(R.sea * exchange.gbp) : 0) + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="#" class="btn btn-primary">Lower shipping cost</a>';
+            for(var key in data){
+                switch(currency){
+                    case 'USD': currency = '$'; break;
+                    case 'NGN': R.key = rounD(R.key * exchange.ngn); data.key = rounD(data.key * exchange.ngn); currency = '₦'; break;
+                    case 'GBP': R.key = rounD(R.key * exchange.gbp); data.key = rounD(data.key * exchange.gbp); currency = '£'; break;
+                    case 'EUR': R.key = rounD(R.key * exchange.eur); data.key = rounD(data.key * exchange.eur); currency = '€'; break;
+                    case 'CAD': R.key = rounD(R.key * exchange.cad); data.key = rounD(data.key * exchange.cad); currency = 'CAD'; break;
+                }
+            }
+            var standard = '<div class="card-header"><center>Standard Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + currency + data.standard + '</h3>    <h6>' + time.standard + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(stdD) + '</p>    <p class="card-text">Your delivery cost is ' + currency + R.standard + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="' + lower + '" class="btn btn-primary">Lower shipping cost</a>';
+            var hazadous = '<div class="card-header"><center>Hazmat Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + currency + data.hazadous + '</h3>    <h6>' + time.standard + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(stdD) + '</p>    <p class="card-text">Your delivery cost is ' + currency + R.hazadous + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="' + lower + '" class="btn btn-primary">Lower shipping cost</a>';
+            var express = '<div class="card-header"><center>Express Shipping</center></div><div class="card-body">    <center><h3 class="card-title">' + currency + data.express + '</h3>    <h6>' + time.express + ' Business Days</h6></center>    <p class="card-text">Estimated Delivery: ' + dateToString(expD) + '</p>    <p class="card-text">Your delivery cost is ' + currency + R.express + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="' + lower + '" class="btn btn-primary">Lower shipping cost</a>';
+            var sea = '<div class="card-header"><center>Sea Shipping</center></div><div class="card-body"><center><h3 class="card-title">' + currency + data.sea + '</h3><h6>' + time.sea + ' Weeks</h6></center><p class="card-text">Estimated Delivery: ' + dateToString(seaD) + '</p><p class="card-text">Your delivery cost is ' + currency + R.sea + '/' + (R.unit == 'lbs' ? 'pound' : 'kilogram') + '</p></div><a href="' + lower + '" class="btn btn-primary">Lower shipping cost</a>';
             $('#standard').html(standard);
             $('#hazadous').html(hazadous);
             $('#express').html(express);
@@ -231,14 +246,6 @@
             return country.code == code;
         }).regions.map(function(region){return region.name});
         setStatesOrCities('#from select[name="state"]', states);
-        if(code == 'ng'){
-            $('#to select[name="country"]').html('<option value="us" selected>United States</option><option value="gb">UK</option>');
-        } else if(code == 'us'){
-            $('#to select[name="country"]').html('<option value="ng" selected>Nigeria</option>');
-        } else if(code == 'gb'){
-            $('#to select[name="country"]').html('<option value="ng" selected>Nigeria</option>');
-        }
-        $('#to select[name="country"]').trigger('change');
         
     });
     $('#to select[name="country"]').change(function(){
@@ -272,7 +279,10 @@
         var used_countries = [
             {name: "United States", code: "us"},
             {name: "Nigeria", code: "ng"},
-            {name: "UK", code: "gb"}
+            {name: "UK", code: "gb"},
+            {name: "Ireland", code: "ie"},
+            {name: "Canada", code: "ca"},
+            {name: "Belgium", code: "be"}
         ].map(function(country, i){
             return '<option value="' + country.code + '">' + country.name + '</option>';
         });

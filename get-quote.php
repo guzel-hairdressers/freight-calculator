@@ -3,7 +3,10 @@
     $constants = json_decode(file_get_contents('constants.json'));
     $from = $_POST['from'];
     $to = $_POST['to'];
-    $R = $constants->R->{$from['country'].''.$to['country']};
+    $R = 1;
+    if(property_exists($constants->R, $from['country'].''.$to['country'])){
+        $R = $constants->R->{$from['country'].''.$to['country']};
+    }
     $time = $constants->time->{$from['country'].''.$to['country']};
     if($R->unit == 'kg'){
         $R->standard *= .45;

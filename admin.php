@@ -112,6 +112,14 @@
                     <input type="number" class="right" name="exchange-gbp" value="<?= json_decode(file_get_contents('constants.json'))->exchange->gbp; ?>">
                 </div>
                 <div class="style">
+                    <span>1$ equals (EUR)</span>
+                    <input type="number" class="right" name="exchange-eur" value="<?= json_decode(file_get_contents('constants.json'))->exchange->eur; ?>">
+                </div>
+                <div class="style">
+                    <span>1$ equals (CAD)</span>
+                    <input type="number" class="right" name="exchange-cad" value="<?= json_decode(file_get_contents('constants.json'))->exchange->cad; ?>">
+                </div>
+                <div class="style">
                     <span>Bacground color</span>
                     <input type="color" class="right" name="background-color" value="<?= json_decode(file_get_contents('constants.json'))->color->background ?>">
                 </div>
@@ -183,7 +191,9 @@
         };
         var exchange = {
             ngn: $('input[name="exchange-ngn"]').val(),
-            gbp: $('input[name="exchange-gbp"]').val()
+            gbp: $('input[name="exchange-gbp"]').val(),
+            eur: $('input[name="exchange-eur"]').val(),
+            cad: $('input[name="exchange-cad"]').val()
         };
         var vat = $('input[name="vat"]').val();
         var hazadous = $('input[name="hazadous"]').val();
@@ -194,7 +204,7 @@
             method: 'POST',
             data: {from, to, R, time, vat, hazadous, color, exchange}
         }).done(function(){
-            toast('Done', 'success', 3000);
+            toast('Done. Reload the page to see the changes', 'success', 3000);
         })
     })
     function setStatesOrCities(jq_str, states_or_cities){
@@ -213,14 +223,6 @@
             return country.code == code;
         }).regions.map(function(region){return region.name});
         setStatesOrCities('#from select[name="state"]', states);
-        if(code == 'ng'){
-            $('#to select[name="country"]').html('<option value="us" selected>United States</option><option value="gb">UK</option>');
-        } else if(code == 'us'){
-            $('#to select[name="country"]').html('<option value="ng" selected>Nigeria</option>');
-        } else if(code == 'gb'){
-            $('#to select[name="country"]').html('<option value="ng" selected>Nigeria</option>');
-        }
-        $('#to select[name="country"]').trigger('change');
         var from = code;
         var to = $('#to select[name="country"]').val();
         if(constants.R[from + to]){
@@ -243,7 +245,6 @@
         }
     });
     $('#to select[name="country"]').change(function(){
-        console.log(constants)
         var code = $(this).val();
         var states = countries.find(function(country){
             return country.code == code;
@@ -313,7 +314,10 @@
         var used_countries = [
             {name: "United States", code: "us"},
             {name: "Nigeria", code: "ng"},
-            {name: "UK", code: "gb"}
+            {name: "UK", code: "gb"},
+            {name: "Ireland", code: "ie"},
+            {name: "Canada", code: "ca"},
+            {name: "Belgium", code: "be"}
         ].map(function(country, i){
             return '<option value="' + country.code + '">' + country.name + '</option>';
         });
